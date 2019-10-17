@@ -27,7 +27,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
    <!-- Determine this using rosrun spinnaker_camera_driver list_cameras.
        If not specified, defaults to first camera found. -->
   <arg name="camera_name" default="camera" />
-  <arg name="camera_serial" default="0" />
+  <arg name="camera_serial" default="16024503" />
   <arg name="calibrated" default="0" />
 
   <group ns="$(arg camera_name)">
@@ -38,6 +38,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
       <param name="frame_id" value="camera" />
       <param name="serial" value="$(arg camera_serial)" />
+      <param name="image_format_color_coding" value="BayerRG8"/>
+      <param name="white_balance_red_ratio" value="1"/>
 
       <!-- When unspecified, the driver will use the default framerate as given by the
            camera itself. Use this parameter to override that value for cameras capable of
