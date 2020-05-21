@@ -139,16 +139,14 @@ void Cm3::setNewConfiguration(const SpinnakerConfig& config, const uint32_t& lev
     }
 
     // Set white balance
-    if (IsAvailable(node_map_->GetNode("BalanceWhiteAuto")))
+    setProperty(node_map_, "BalanceWhiteAuto", config.auto_white_balance);
+    if (config.auto_white_balance.compare(std::string("Off")) == 0)
     {
-      setProperty(node_map_, "BalanceWhiteAuto", config.auto_white_balance);
-      if (config.auto_white_balance.compare(std::string("Off")) == 0)
-      {
-        setProperty(node_map_, "BalanceRatioSelector", "Blue");
-        setProperty(node_map_, "BalanceRatio", static_cast<float>(config.white_balance_blue_ratio));
-        setProperty(node_map_, "BalanceRatioSelector", "Red");
-        setProperty(node_map_, "BalanceRatio", static_cast<float>(config.white_balance_red_ratio));
-      }
+      ROS_INFO_STREAM("Setting WB");
+      setProperty(node_map_, "BalanceRatioSelector", std::string("Blue"));
+      setProperty(node_map_, "BalanceRatio", static_cast<float>(config.white_balance_blue_ratio));
+      setProperty(node_map_, "BalanceRatioSelector", std::string("Red"));
+      setProperty(node_map_, "BalanceRatio", static_cast<float>(config.white_balance_red_ratio));
     }
   }
   catch (const Spinnaker::Exception& e)
