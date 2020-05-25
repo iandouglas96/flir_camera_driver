@@ -63,6 +63,9 @@ public:
   static const uint8_t LEVEL_RECONFIGURE_RUNNING = 0;
 
   virtual void setGain(const float& gain);
+  virtual void setExpGain(const float& gain, const float& expo);
+  virtual float getExp();
+  virtual float getGain();
   int getHeightMax();
   int getWidthMax();
 
@@ -76,6 +79,9 @@ protected:
 
   int height_max_;
   int width_max_;
+
+  float cur_gain_ = -1;
+  float cur_expo_ = -1;
 
   /*!
   * \brief Changes the video mode of the connected camera.

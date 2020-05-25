@@ -54,6 +54,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
         <param name="image_format_color_coding" value="BayerRG8"/>
         <param name="white_balance_red_ratio" value="1.0"/>
         <param name="white_balance_blue_ratio" value="1.5"/>
+        <param name="exposure_setpt" value="0.35"/>
 
         <param name="enable_trigger" value="On"/>
         <param name="trigger_source" value="Line2"/>
@@ -81,6 +82,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
         <param name="image_format_color_coding" value="BayerRG8"/>
         <param name="white_balance_red_ratio" value="1.0"/>
         <param name="white_balance_blue_ratio" value="1.5"/>
+        <param name="exposure_setpt" value="0.35"/>
 
         <param name="enable_trigger" value="On"/>
         <param name="trigger_source" value="Line2"/>
@@ -108,6 +110,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
         <param name="image_format_color_coding" value="BayerRG8"/>
         <param name="white_balance_red_ratio" value="1.0"/>
         <param name="white_balance_blue_ratio" value="1.5"/>
+        <param name="exposure_setpt" value="0.35"/>
 
         <param name="enable_trigger" value="On"/>
         <param name="trigger_source" value="Line2"/>
@@ -135,6 +138,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
         <param name="image_format_color_coding" value="BayerRG8"/>
         <param name="white_balance_red_ratio" value="1.0"/>
         <param name="white_balance_blue_ratio" value="1.5"/>
+        <param name="exposure_setpt" value="0.35"/>
 
         <param name="enable_trigger" value="On"/>
         <param name="trigger_source" value="Line2"/>

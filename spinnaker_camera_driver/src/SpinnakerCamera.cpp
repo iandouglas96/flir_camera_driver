@@ -103,6 +103,28 @@ void SpinnakerCamera::setGain(const float& gain)
     camera_->setGain(gain);
 }
 
+void SpinnakerCamera::setExpGain(const float& gain, const float& exp)
+{
+  if (camera_)
+    camera_->setExpGain(gain, exp);
+}
+
+float SpinnakerCamera::getExp()
+{
+  if (camera_)
+    return std::max(0.0, static_cast<double>(camera_->getExp()));
+  else
+    return 0;
+}
+
+float SpinnakerCamera::getGain()
+{
+  if (camera_)
+    return std::max(0.0, static_cast<double>(camera_->getGain()));
+  else
+    return 0;
+}
+
 int SpinnakerCamera::getHeightMax()
 {
   if (camera_)

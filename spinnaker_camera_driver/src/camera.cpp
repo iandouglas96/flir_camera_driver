@@ -89,10 +89,6 @@ void Camera::setNewConfiguration(const SpinnakerConfig& config, const uint32_t& 
     setProperty(node_map_, "LineMode", config.line_mode);
     setProperty(node_map_, "LineSource", config.line_source);
 
-    // Set auto exposure
-    setProperty(node_map_, "ExposureMode", config.exposure_mode);
-    setProperty(node_map_, "ExposureAuto", config.exposure_auto);
-
     // Set sharpness
     if (IsAvailable(node_map_->GetNode("SharpeningEnable")))
     {
@@ -116,22 +112,29 @@ void Camera::setNewConfiguration(const SpinnakerConfig& config, const uint32_t& 
     }
 
     // Set shutter time/speed
-    if (config.exposure_auto.compare(std::string("Off")) == 0)
-    {
-      setProperty(node_map_, "ExposureTime", static_cast<float>(config.exposure_time));
-    }
-    else
-    {
-      setProperty(node_map_, "AutoExposureExposureTimeUpperLimit",
-                  static_cast<float>(config.auto_exposure_time_upper_limit));
+    if (cur_expo_ < 0) {
+      // Set auto exposure
+      setProperty(node_map_, "ExposureMode", config.exposure_mode);
+      setProperty(node_map_, "ExposureAuto", config.exposure_auto);
+      if (config.exposure_auto.compare(std::string("Off")) == 0)
+      {
+        setProperty(node_map_, "ExposureTime", static_cast<float>(config.exposure_time));
+      }
+      else
+      {
+        setProperty(node_map_, "AutoExposureExposureTimeUpperLimit",
+                    static_cast<float>(config.auto_exposure_time_upper_limit));
+      }
     }
 
     // Set gain
-    setProperty(node_map_, "GainSelector", config.gain_selector);
-    setProperty(node_map_, "GainAuto", config.auto_gain);
-    if (config.auto_gain.compare(std::string("Off")) == 0)
-    {
-      setProperty(node_map_, "Gain", static_cast<float>(config.gain));
+    if (cur_gain_ < 0) {
+      setProperty(node_map_, "GainSelector", config.gain_selector);
+      setProperty(node_map_, "GainAuto", config.auto_gain);
+      if (config.auto_gain.compare(std::string("Off")) == 0)
+      {
+        setProperty(node_map_, "Gain", static_cast<float>(config.gain));
+      }
     }
 
     // Set brightness
@@ -212,6 +215,25 @@ void Camera::setGain(const float& gain)
 {
   setProperty(node_map_, "GainAuto", "Off");
   setProperty(node_map_, "Gain", static_cast<float>(gain));
+}
+
+void Camera::setExpGain(const float& gain, const float& expo) {
+  if (cur_gain_ < 0 && cur_expo_ < 0) {
+    setProperty(node_map_, "GainAuto", std::string("Off"));
+    setProperty(node_map_, "ExposureAuto", std::string("Off"));
+  }
+  cur_gain_ = gain;
+  cur_expo_ = expo;
+  setProperty(node_map_, "Gain", static_cast<float>(gain));
+  setProperty(node_map_, "ExposureTime", static_cast<float>(expo));
+}
+
+float Camera::getExp() {
+  return cur_expo_;
+}
+
+float Camera::getGain() {
+  return cur_gain_;
 }
 
 /*

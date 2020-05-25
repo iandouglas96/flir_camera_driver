@@ -47,7 +47,7 @@ inline bool setProperty(Spinnaker::GenApi::INodeMap* node_map, const std::string
   // the entry node, and set the new value of the enumeration node with
   // the integer value from the entry node.
   Spinnaker::GenApi::CEnumerationPtr enumerationPtr = node_map->GetNode(property_name.c_str());
-  ROS_INFO_STREAM(property_name << " set string");
+  ROS_DEBUG_STREAM(property_name << " set string");
 
   if (!Spinnaker::GenApi::IsImplemented(enumerationPtr))
   {
@@ -70,7 +70,7 @@ inline bool setProperty(Spinnaker::GenApi::INodeMap* node_map, const std::string
         {
           enumerationPtr->SetIntValue(enumEmtryPtr->GetValue());
 
-          ROS_INFO_STREAM("[SpinnakerCamera]: ("
+          ROS_DEBUG_STREAM("[SpinnakerCamera]: ("
                           << static_cast<Spinnaker::GenApi::CStringPtr>(node_map->GetNode("DeviceID"))->GetValue()
                           << ") " << property_name << " set to " << enumerationPtr->GetCurrentEntry()->GetSymbolic()
                           << ".");
@@ -110,7 +110,7 @@ inline bool setProperty(Spinnaker::GenApi::INodeMap* node_map, const std::string
 inline bool setProperty(Spinnaker::GenApi::INodeMap* node_map, const std::string& property_name, const float& value)
 {
   Spinnaker::GenApi::CFloatPtr floatPtr = node_map->GetNode(property_name.c_str());
-  ROS_INFO_STREAM(property_name << " set float");
+  ROS_DEBUG_STREAM(property_name << " set float");
 
   if (!Spinnaker::GenApi::IsImplemented(floatPtr))
   {
@@ -129,7 +129,7 @@ inline bool setProperty(Spinnaker::GenApi::INodeMap* node_map, const std::string
       else if (temp_value < floatPtr->GetMin())
         temp_value = floatPtr->GetMin();
       floatPtr->SetValue(temp_value);
-      ROS_INFO_STREAM("[SpinnakerCamera]: ("
+      ROS_DEBUG_STREAM("[SpinnakerCamera]: ("
                       << static_cast<Spinnaker::GenApi::CStringPtr>(node_map->GetNode("DeviceID"))->GetValue() << ") "
                       << property_name << " set to " << floatPtr->GetValue() << ".");
       return true;
@@ -153,7 +153,7 @@ inline bool setProperty(Spinnaker::GenApi::INodeMap* node_map, const std::string
 inline bool setProperty(Spinnaker::GenApi::INodeMap* node_map, const std::string& property_name, const bool& value)
 {
   Spinnaker::GenApi::CBooleanPtr boolPtr = node_map->GetNode(property_name.c_str());
-  ROS_INFO_STREAM(property_name << " set bool");
+  ROS_DEBUG_STREAM(property_name << " set bool");
   if (!Spinnaker::GenApi::IsImplemented(boolPtr))
   {
     ROS_ERROR_STREAM("[SpinnakerCamera]: ("
@@ -166,7 +166,7 @@ inline bool setProperty(Spinnaker::GenApi::INodeMap* node_map, const std::string
     if (Spinnaker::GenApi::IsWritable(boolPtr))
     {
       boolPtr->SetValue(value);
-      ROS_INFO_STREAM("[SpinnakerCamera]: ("
+      ROS_DEBUG_STREAM("[SpinnakerCamera]: ("
                       << static_cast<Spinnaker::GenApi::CStringPtr>(node_map->GetNode("DeviceID"))->GetValue() << ") "
                       << property_name << " set to " << boolPtr->GetValue() << ".");
       return true;
@@ -190,7 +190,7 @@ inline bool setProperty(Spinnaker::GenApi::INodeMap* node_map, const std::string
 inline bool setProperty(Spinnaker::GenApi::INodeMap* node_map, const std::string& property_name, const int& value)
 {
   Spinnaker::GenApi::CIntegerPtr intPtr = node_map->GetNode(property_name.c_str());
-  ROS_INFO_STREAM(property_name << " set int");
+  ROS_DEBUG_STREAM(property_name << " set int");
   if (!Spinnaker::GenApi::IsImplemented(intPtr))
   {
     ROS_ERROR_STREAM("[SpinnakerCamera]: ("
@@ -208,7 +208,7 @@ inline bool setProperty(Spinnaker::GenApi::INodeMap* node_map, const std::string
       else if (temp_value < intPtr->GetMin())
         temp_value = intPtr->GetMin();
       intPtr->SetValue(temp_value);
-      ROS_INFO_STREAM("[SpinnakerCamera]: ("
+      ROS_DEBUG_STREAM("[SpinnakerCamera]: ("
                       << static_cast<Spinnaker::GenApi::CStringPtr>(node_map->GetNode("DeviceID"))->GetValue() << ") "
                       << property_name << " set to " << intPtr->GetValue() << ".");
       return true;
@@ -238,7 +238,7 @@ inline bool setMaxInt(Spinnaker::GenApi::INodeMap* node_map, const std::string& 
     if (Spinnaker::GenApi::IsWritable(intPtr))
     {
       intPtr->SetValue(intPtr->GetMax());
-      ROS_INFO_STREAM("[SpinnakerCamera]: ("
+      ROS_DEBUG_STREAM("[SpinnakerCamera]: ("
                       << static_cast<Spinnaker::GenApi::CStringPtr>(node_map->GetNode("DeviceID"))->GetValue() << ") "
                       << property_name << " set to " << intPtr->GetValue() << ".");
       return true;

@@ -55,6 +55,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "spinnaker_camera_driver/diagnostics.h"
 
 #include <image_transport/image_transport.h>          // ROS library that allows sending compressed images
+#include <cv_bridge/cv_bridge.h>
+#include <opencv2/imgproc/imgproc.hpp>
 #include <camera_info_manager/camera_info_manager.h>  // ROS library that publishes CameraInfo topics
 #include <sensor_msgs/CameraInfo.h>                   // ROS message header for CameraInfo
 
@@ -603,11 +605,41 @@ private:
 
             // Publish the full message
             pub_->publish(wfov_image);
+            sensor_msgs::ImagePtr image(new sensor_msgs::Image(wfov_image->image));
+
+            if (config_.exposure_setpt > 0) {
+              //convert to cv
+              cv_bridge::CvImagePtr cv_img = cv_bridge::toCvCopy(image, sensor_msgs::image_encodings::BGR8);
+              cv::Mat grey_img, grey_img_bottom;
+              cv::cvtColor(cv_img->image, grey_img, CV_BGR2GRAY);
+              grey_img_bottom = grey_img(cv::Rect(0, grey_img.rows/2, grey_img.cols, grey_img.rows/2));
+              float mean_brightness = cv::mean(grey_img_bottom)[0];
+              float cur_exp = spinnaker_.getExp();
+              float cur_gain = spinnaker_.getGain();
+              float diff = config_.exposure_setpt*255 - mean_brightness;            
+              NODELET_DEBUG_STREAM("setpt: " << config_.exposure_setpt*255 << " val: " << 
+                                  mean_brightness << " diff: " << diff);
+
+              if (diff > 0) {
+                if (cur_exp > 50000) {
+                  cur_gain += diff*0.1;
+                } else {
+                  cur_exp += diff*2;
+                }
+              } else {
+                if (cur_gain > 1.0) {
+                  cur_gain += diff*0.1;
+                } else {
+                  cur_exp += diff*2;
+                }
+              }
+
+              spinnaker_.setExpGain(cur_gain, cur_exp);
+            }
 
             // Publish the message using standard image transport
             if (it_pub_.getNumSubscribers() > 0)
             {
-              sensor_msgs::ImagePtr image(new sensor_msgs::Image(wfov_image->image));
               it_pub_.publish(image, ci_);
             }
           }
