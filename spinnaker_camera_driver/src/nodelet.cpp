@@ -622,17 +622,20 @@ private:
 
               if (diff > 0) {
                 if (cur_exp > 50000) {
-                  cur_gain += diff*0.1;
+                  cur_gain *= 1 + diff*0.002;
                 } else {
-                  cur_exp += diff*2;
+                  cur_exp *= 1 + diff*0.005;
                 }
               } else {
-                if (cur_gain > 1.0) {
-                  cur_gain += diff*0.1;
+                if (cur_gain > 0.02) {
+                  cur_gain *= 1 + diff*0.002;
                 } else {
-                  cur_exp += diff*2;
+                  cur_exp *= 1 + diff*0.005;
                 }
               }
+              cur_gain = std::max(0.01, static_cast<double>(cur_gain));
+              cur_gain = std::min(1000.0, static_cast<double>(cur_gain));
+              cur_exp = std::max(0.01, static_cast<double>(cur_exp));
 
               spinnaker_.setExpGain(cur_gain, cur_exp);
             }
@@ -740,6 +743,8 @@ private:
   int packet_size_;
   /// GigE packet delay:
   int packet_delay_;
+
+  float last_diff_ = 0;
 
   /// Configuration:
   spinnaker_camera_driver::SpinnakerConfig config_;
